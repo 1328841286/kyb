@@ -1,0 +1,54 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.second.dao.CourseCopyDao">
+    <insert id="addCourse" parameterType="com.example.second.entity.Course">
+        insert into course_copy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="courseId != null">
+                courseId,
+            </if>
+            <if test="courseTeacher != null">
+                courseTeacher,
+            </if>
+            <if test="coutseName != null">
+                courseName,
+            </if>
+            <if test="courseDiscription != null">
+                courseDiscription,
+            </if>
+            <if test="courseSemester != null">
+                courseSemester,
+            </if>
+            <if test="courseAddress != null">
+                courseAddress,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid,jdbcType=BIGINT},
+            </if>
+            <if test="courseId != null">
+                #{courseId,jdbcType=VARCHAR},
+            </if>
+            <if test="courseTeacher != null">
+                #{courseTeacher,jdbcType=INTEGER},
+            </if>
+            <if test="courseName != null">
+                #{courseName,jdbcType=VARCHAR},
+            </if>
+            <if test="courseDiscription != null">
+                #{courseDiscription,jdbcType=VARCHAR},
+            </if>
+            <if test="courseSemester != null">
+                #{courseSemester,jdbcType=VARCHAR},
+            </if>
+            <if test="courseAddress != null">
+                #{courseAddress,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+</mapper>    

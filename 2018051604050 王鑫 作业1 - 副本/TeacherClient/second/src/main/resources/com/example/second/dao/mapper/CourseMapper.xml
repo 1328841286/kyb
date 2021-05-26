@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.second.dao.CourseDao">
+    <resultMap id="BaseResultMap" type="com.example.second.entity.Course">
+        <id column="uid" property="uid" jdbcType="BIGINT"/>
+        <id column="courseId" property="courseId" jdbcType="VARCHAR"/>
+        <result column="courseTeacher" property="courseTeacher" jdbcType="VARCHAR"/>
+        <result column="courseName" property="courseName" jdbcType="VARCHAR"/>
+        <result column="courseDiscription" property="courseDiscription" jdbcType="VARCHAR"/>
+        <result column="courseSemester" property="courseSemester" jdbcType="VARCHAR"/>
+        <result column="courseAddress" property="courseAddress" jdbcType="VARCHAR"/>
+
+<!--        新加的-->
+        <result column="whetherTextbook" property="whetherTextbook" jdbcType="VARCHAR"/>
+        <result column="textbookName" property="textbookName" jdbcType="VARCHAR"/>
+        <result column="courseDifficulty" property="courseDifficulty" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        uid,courseId,courseTeacher,courseName,courseDiscription,courseSemester,courseAddress,whetherTextbook,textbookName,courseDifficulty
+    </sql>
+
+    <select id="findAllCourses" resultType="com.example.second.entity.Course">
+        select * from course
+    </select>
+
+    <select id="findCourseByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from course where name = #{name,jdbcType=VARCHAR}
+    </select>
+
+<!--    这里注意改-->
+
+    <delete id="deleteCoursesByIds">
+        delete from course where uid in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getCountCourses" resultType="java.lang.Integer">
+        select count(uid) as count from course
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from course
+        where uid = #{uid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteCourseById" parameterType="java.lang.Long">
+        delete from course
+        where uid = #{uid,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.second.entity.Course">
+        insert into course (uid,courseId,courseTeacher,courseName,courseDiscription,courseSemester,courseAddress)
+        values (#{uid,jdbcType=BIGINT}, #{courseId,jdbcType=VARCHAR}, #{courseTeacher,jdbcType=INTEGER},#{courseName,jdbcType=INTEGER},#{courseDiscription,jdbcType=INTEGER},#{courseSemester,jdbcType=INTEGER},#{courseAddress,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="addCourse" parameterType="com.example.second.entity.Course">
+        insert into course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="courseId != null">
+                courseId,
+            </if>
+            <if test="courseTeacher != null">
+                courseTeacher,
+            </if>
+            <if test="courseName != null">
+                courseName,
+            </if>
+            <if test="courseDiscription != null">
+                courseDiscription,
+            </if>
+            <if test="courseSemester != null">
+                courseSemester,
+            </if>
+            <if test="courseAddress != null">
+                courseAddress,
+            </if>
+
+-- 新加的
+            <if test="whetherTextbook != null">
+                whetherTextbook,
+            </if>
+            <if test="textbookName != null">
+                textbookName,
+            </if>
+            <if test="courseDifficulty != null">
+                courseDifficulty,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid,jdbcType=BIGINT},
+            </if>
+            <if test="courseId != null">
+                #{courseId,jdbcType=VARCHAR},
+            </if>
+            <if test="courseTeacher != null">
+                #{courseTeacher,jdbcType=VARCHAR},
+            </if>
+            <if test="courseName != null">
+                #{courseName,jdbcType=INTEGER},
+            </if>
+            <if test="courseDiscription != null">
+                #{courseDiscription,jdbcType=VARCHAR},
+            </if>
+            <if test="courseSemester != null">
+                #{courseSemester,jdbcType=VARCHAR},
+            </if>
+            <if test="courseAddress != null">
+                #{courseAddress,jdbcType=VARCHAR},
+            </if>
+
+--             新加的
+
+            <if test="whetherTextbook != null">
+                #{whetherTextbook,jdbcType=VARCHAR},
+            </if>
+            <if test="textbookName != null">
+                #{textbookName,jdbcType=VARCHAR},
+            </if>
+            <if test="courseDifficulty != null">
+                #{courseDifficulty,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateCourse" parameterType="com.example.second.entity.Course">
+        update course
+        <set>
+            <if test="courseId != null">
+                courseId = #{courseId,jdbcType=VARCHAR},
+            </if>
+            <if test="courseTeacher != null">
+                courseTeacher = #{courseTeacher,jdbcType=INTEGER},
+            </if>
+            <if test="courseName != null">
+                courseName = #{courseName,jdbcType=VARCHAR},
+            </if>
+            <if test="courseDiscription != null">
+                courseDiscription = #{courseDiscription,jdbcType=VARCHAR},
+            </if>
+            <if test="courseSemester != null">
+                courseSemester = #{courseSemester,jdbcType=VARCHAR},
+            </if>
+            <if test="courseAddress != null">
+                courseAddress = #{courseAddress,jdbcType=VARCHAR},
+            </if>
+
+
+
+--             新加的
+            <if test="whetherTextbook != null">
+                whetherTextbook = #{whetherTextbook,jdbcType=VARCHAR},
+            </if>
+            <if test="textbookName != null">
+                textbookName = #{textbookName,jdbcType=VARCHAR},
+            </if>
+            <if test="courseDifficulty != null">
+                courseDifficulty = #{courseDifficulty,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uid = #{uid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.second.entity.Course">
+        update course
+        set name = #{courseId,jdbcType=VARCHAR},
+            courseTeacher = #{courseTeacher,jdbcType=INTEGER},
+            courseName= #{courseName,jdbcType=VARCHAR}
+            courseDiscription = #{courseDiscription,jdbcType=VARCHAR}
+            courseSemester = #{courseSemester,jdbcType=VARCHAR}
+            courseAddress = #{courseAddress,jdbcType=VARCHAR}
+
+--         新加的
+
+            whetherTextbook = #{whetherTextbook,jdbcType=VARCHAR}
+            textbookName = #{textbookName,jdbcType=VARCHAR}
+            courseDifficulty = #{courseDifficulty,jdbcType=VARCHAR}
+        where uid = #{uid,jdbcType=BIGINT}
+    </update>
+</mapper>
